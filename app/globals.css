@@ -324,6 +324,17 @@ label {
   }
 }
 
+.price-formation-cta {
+  width: 100%;
+  max-width: 100%;
+}
+
+@media (min-width: 640px) {
+  .price-formation-cta {
+    width: auto;
+  }
+}
+
 /* Плаваюча кнопка заявки — десктоп, після прокрутки hero (на мобайлі в хедері) */
 .lead-fab {
   display: none;

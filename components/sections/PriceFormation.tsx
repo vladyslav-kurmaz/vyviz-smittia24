@@ -46,9 +46,7 @@ export function PriceFormation() {
                 href="#contact"
                 variant="primary"
                 size="md"
-                w={{ base: "100%", sm: "auto" }}
-                maxW="100%"
-                px={{ base: 5, md: 8 }}
+                className="price-formation-cta"
               >
                 Надіслати фото та отримати розрахунок
               </Button>
