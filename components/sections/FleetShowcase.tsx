@@ -42,6 +42,8 @@ function FleetRow({ vehicle, index }: { vehicle: FleetVehicle; index: number }) 
             src={vehicle.image}
             alt={vehicle.name}
             fill
+            loading="lazy"
+            quality={60}
             sizes="(max-width: 1024px) 100vw, 520px"
             style={{ objectFit: "cover", objectPosition: "center" }}
           />

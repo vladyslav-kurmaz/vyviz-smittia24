@@ -38,7 +38,7 @@ function GalleryImage({
         fill
         priority={priority}
         loading={priority ? undefined : "lazy"}
-        quality={60}
+        quality={55}
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         style={{ objectFit: "cover" }}
         onLoad={onReady}

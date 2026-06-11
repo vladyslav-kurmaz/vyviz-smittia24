@@ -61,9 +61,10 @@ function ServicePanelContent({
           src={image}
           alt={title}
           fill
+          loading="lazy"
+            quality={55}
           sizes="(max-width: 1024px) 100vw, 50vw"
           style={{ objectFit: "cover" }}
-          priority={false}
         />
       </Box>
     </SimpleGrid>

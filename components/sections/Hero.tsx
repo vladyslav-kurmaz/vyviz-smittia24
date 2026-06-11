@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
 import { Box, Container, Flex, Heading, Text } from "@chakra-ui/react";
 import { Button } from "@/components/ui/Button";
 import {
@@ -12,6 +11,7 @@ import {
   HERO_VIDEO,
 } from "@/lib/hero";
 import { scheduleHeroVideoLoad } from "@/lib/hero-video";
+import { DESKTOP_MEDIA } from "@/lib/viewport";
 
 function HeroBackgroundVideo({
   src,
@@ -76,24 +76,36 @@ function HeroBackgroundVideo({
 }
 
 export function Hero() {
-  const reduceMotion = useReducedMotion();
   const [desktopVideoOk, setDesktopVideoOk] = useState(true);
   const [loadDesktopVideo, setLoadDesktopVideo] = useState(false);
-  const showDesktopVideo = !reduceMotion && desktopVideoOk;
+  const [reduceMotion, setReduceMotion] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
-    if (!showDesktopVideo) return;
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const desktop = window.matchMedia(DESKTOP_MEDIA);
+    const update = () => {
+      setReduceMotion(motion.matches);
+      setIsDesktop(desktop.matches);
+    };
+    update();
+    motion.addEventListener("change", update);
+    desktop.addEventListener("change", update);
+    return () => {
+      motion.removeEventListener("change", update);
+      desktop.removeEventListener("change", update);
+    };
+  }, []);
+
+  const showDesktopVideo = isDesktop && !reduceMotion && desktopVideoOk;
+
+  useEffect(() => {
+    if (!showDesktopVideo) {
+      setLoadDesktopVideo(false);
+      return;
+    }
     return scheduleHeroVideoLoad(() => setLoadDesktopVideo(true));
   }, [showDesktopVideo]);
-
-  const slide = (delay: number) =>
-    reduceMotion
-      ? {}
-      : {
-          initial: { y: 20 },
-          animate: { y: 0 },
-          transition: { duration: 0.6, delay, ease: "easeOut" as const },
-        };
 
   return (
     <Box
@@ -117,20 +129,18 @@ export function Hero() {
         overflow="hidden"
         pointerEvents="none"
       >
-        {/* Мобайл: лише легкий постер — без 18 MB .mov (Lighthouse mobile) */}
         <Box display={{ base: "block", md: "none" }} position="absolute" inset={0}>
           <Image
             src={HERO_BG_MOBILE}
             alt=""
             fill
             priority
-            quality={60}
+            unoptimized
             sizes="100vw"
             style={{ objectFit: "cover", objectPosition: "center" }}
           />
         </Box>
 
-        {/* Десктоп: постер одразу, повноякісне відео після load + idle */}
         <Box display={{ base: "none", md: "block" }} position="absolute" inset={0}>
           <Image
             src={HERO_BG}
@@ -171,7 +181,7 @@ export function Hero() {
         w="full"
       >
         <Box maxW={{ base: "full", md: "2xl", lg: "3xl" }}>
-          <motion.div {...slide(0)}>
+          <div className="hero-enter">
             <Text
               display="inline-block"
               px={4}
@@ -189,9 +199,9 @@ export function Hero() {
             >
               Київ та область
             </Text>
-          </motion.div>
+          </div>
 
-          <motion.div {...slide(0.08)}>
+          <div className="hero-enter hero-enter-delay-1">
             <Heading
               as="h1"
               fontSize={{ base: "2rem", sm: "2.5rem", md: "3.25rem", lg: "3.75rem" }}
@@ -204,9 +214,9 @@ export function Hero() {
             >
               Вивіз будь-якого сміття по всій Київській області
             </Heading>
-          </motion.div>
+          </div>
 
-          <motion.div {...slide(0.16)}>
+          <div className="hero-enter hero-enter-delay-2">
             <Text
               mt={5}
               fontSize={{ base: "md", md: "lg", lg: "xl" }}
@@ -217,9 +227,9 @@ export function Hero() {
               Вивозимо будівельне, побутове та великогабаритне сміття. Приїжджаємо
               вчасно, допомагаємо із завантаженням та залишаємо після себе порядок.
             </Text>
-          </motion.div>
+          </div>
 
-          <motion.div {...slide(0.24)}>
+          <div className="hero-enter hero-enter-delay-3">
             <Flex mt={8} gap={4} flexWrap="wrap">
               <Button href="#contact" variant="primary">
                 Передзвоніть мені
@@ -228,7 +238,7 @@ export function Hero() {
                 Докладніше
               </Button>
             </Flex>
-          </motion.div>
+          </div>
         </Box>
       </Container>
     </Box>

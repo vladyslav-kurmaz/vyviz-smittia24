@@ -19,6 +19,13 @@
     "react": "^18",
     "react-dom": "^18"
   },
+  "browserslist": [
+    "chrome >= 92",
+    "firefox >= 90",
+    "safari >= 15",
+    "ios_saf >= 15",
+    "not dead"
+  ],
   "devDependencies": {
     "@types/node": "^20",
     "@types/react": "^18",

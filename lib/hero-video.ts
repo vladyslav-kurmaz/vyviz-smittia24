@@ -1,8 +1,12 @@
+import { scheduleAfterIdle } from "@/lib/idle-schedule";
+import { isDesktopViewport } from "@/lib/viewport";
+
 /** Затримка перед підвантаженням desktop-відео (після load) — не блокує LCP. */
-export const HERO_VIDEO_LOAD_DELAY_MS = 2000;
+export const HERO_VIDEO_LOAD_DELAY_MS = 2500;
 
 export function shouldSkipHeroVideo(): boolean {
   if (typeof window === "undefined") return true;
+  if (!isDesktopViewport()) return true;
 
   const connection = (
     navigator as Navigator & {
@@ -19,35 +23,9 @@ export function shouldSkipHeroVideo(): boolean {
 }
 
 export function scheduleHeroVideoLoad(onReady: () => void): () => void {
-  let cancelled = false;
-  let idleId: number | undefined;
-  let timeoutId: ReturnType<typeof setTimeout> | undefined;
-
-  const run = () => {
-    if (cancelled || shouldSkipHeroVideo()) return;
-
-    const start = () => {
-      if (!cancelled) onReady();
-    };
-
-    if ("requestIdleCallback" in window) {
-      idleId = window.requestIdleCallback(start, {
-        timeout: HERO_VIDEO_LOAD_DELAY_MS + 500,
-      });
-    } else {
-      timeoutId = setTimeout(start, HERO_VIDEO_LOAD_DELAY_MS);
-    }
-  };
-
-  if (document.readyState === "complete") {
-    timeoutId = setTimeout(run, HERO_VIDEO_LOAD_DELAY_MS);
-  } else {
-    window.addEventListener("load", run, { once: true });
+  if (shouldSkipHeroVideo()) {
+    return () => {};
   }
 
-  return () => {
-    cancelled = true;
-    if (idleId !== undefined) window.cancelIdleCallback(idleId);
-    if (timeoutId !== undefined) clearTimeout(timeoutId);
-  };
+  return scheduleAfterIdle(onReady, HERO_VIDEO_LOAD_DELAY_MS, HERO_VIDEO_LOAD_DELAY_MS + 500);
 }

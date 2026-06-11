@@ -1,5 +1,3 @@
-import { GALLERY_IMAGE_IDS, getGalleryImagePath } from "@/lib/gallery";
-
 export type FeaturedService = {
   id: string;
   tab: string;
@@ -9,13 +7,15 @@ export type FeaturedService = {
   points: string[];
 };
 
+const SERVICES_IMAGE_DIR = "/images/services";
+
 /** Три головні послуги на лендингу (як на vyviz-smittya.in.ua) */
 export const FEATURED_SERVICES: FeaturedService[] = [
   {
     id: "budivelne",
     tab: "Будівельне",
     title: "Вивіз будівельного сміття",
-    image: getGalleryImagePath(14),
+    image: `${SERVICES_IMAGE_DIR}/budivelne.webp`,
     seoPath: "vyviz-budivelnogo-smittya",
     points: [
       "Швидке очищення після ремонту, демонтажу чи будівництва",
@@ -29,7 +29,7 @@ export const FEATURED_SERVICES: FeaturedService[] = [
     id: "pryvatnyj-sektor",
     tab: "Приватний сектор",
     title: "Вивіз сміття з приватного сектору",
-    image: getGalleryImagePath(9),
+    image: `${SERVICES_IMAGE_DIR}/pryvatnyj.webp`,
     seoPath: "vyviz-z-pryvatnykh-budynkiv",
     points: [
       "Вивіз великих обсягів зібраних відходів із приватних територій",
@@ -43,7 +43,7 @@ export const FEATURED_SERVICES: FeaturedService[] = [
     id: "vtorynna-syrovyna",
     tab: "Вторинна сировина",
     title: "Вивіз вторинної сировини",
-    image: getGalleryImagePath(GALLERY_IMAGE_IDS[0]),
+    image: `${SERVICES_IMAGE_DIR}/vtorynna.webp`,
     seoPath: "vyviz-vtorynnoyi-syrovyny",
     points: [
       "Вивіз картону, пластику, металу, деревини та іншої вторсировини",

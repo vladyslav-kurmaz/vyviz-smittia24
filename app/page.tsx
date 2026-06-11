@@ -3,12 +3,23 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { homeJsonLd } from "@/lib/schema-jsonld";
 import { FAQ_ITEMS } from "@/lib/faq";
 import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import { FloatingMessengers } from "@/components/layout/FloatingMessengers";
 import { Hero } from "@/components/sections/Hero";
-import { Services } from "@/components/sections/Services";
-import { Benefits } from "@/components/sections/Benefits";
 
+const Footer = dynamic(() => import("@/components/layout/Footer").then((m) => m.Footer), {
+  loading: () => null,
+});
+const FloatingMessengers = dynamic(
+  () => import("@/components/layout/FloatingMessengers").then((m) => m.FloatingMessengers),
+  { loading: () => null },
+);
+const Services = dynamic(
+  () => import("@/components/sections/Services").then((m) => m.Services),
+  { loading: () => null },
+);
+const Benefits = dynamic(
+  () => import("@/components/sections/Benefits").then((m) => m.Benefits),
+  { loading: () => null },
+);
 const FleetPricing = dynamic(
   () => import("@/components/sections/FleetPricing").then((m) => m.FleetPricing),
   { loading: () => null },

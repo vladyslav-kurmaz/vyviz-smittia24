@@ -19,6 +19,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="uk" dir="ltr" suppressHydrationWarning>
+      <head>
+        <link
+          rel="preload"
+          as="image"
+          href="/images/hero/hero-mobile-poster.webp"
+          media="(max-width: 767px)"
+          fetchPriority="high"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href="/images/hero/hero-poster.webp"
+          media="(min-width: 768px)"
+          fetchPriority="high"
+        />
+      </head>
       <body
         className={`${inter.variable} ${inter.className} font-sans antialiased`}
         suppressHydrationWarning
