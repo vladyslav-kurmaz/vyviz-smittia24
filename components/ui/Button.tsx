@@ -89,9 +89,9 @@ export function Button({
           borderWidth: "2px",
           borderColor: "white",
           color: "white",
-          bg: "transparent",
+          bg: "blackAlpha.300",
           shadow: "none",
-          _hover: { bg: "whiteAlpha.200", transform: "translateY(-1px)" },
+          _hover: { bg: "whiteAlpha.300", transform: "translateY(-1px)" },
         }
       : {
           variant: "outline" as const,

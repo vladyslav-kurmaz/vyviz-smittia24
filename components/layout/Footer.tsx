@@ -21,7 +21,7 @@ export function Footer() {
         <Grid templateColumns={{ base: "1fr", md: "1fr 1fr", lg: "repeat(4, 1fr)" }} gap={12}>
           <Box>
             <Logo />
-            <Text mt={4} fontSize="sm" color="muted" lineHeight="relaxed">
+            <Text mt={4} fontSize="sm" color="ink" lineHeight="relaxed" opacity={0.72}>
               Вивіз сміття, обрізання дерев, косіння трави та розчистка територій у
               Києві та області. 5 років на ринку.
             </Text>
@@ -41,8 +41,9 @@ export function Footer() {
                     <Box
                       as="span"
                       fontSize="sm"
-                      color="muted"
-                      _hover={{ color: "accent.500" }}
+                      color="ink"
+                      opacity={0.72}
+                      _hover={{ color: "accent.600", opacity: 1 }}
                     >
                       {s.name}
                     </Box>
@@ -70,8 +71,9 @@ export function Footer() {
                     <Box
                       as="span"
                       fontSize="sm"
-                      color="muted"
-                      _hover={{ color: "accent.500" }}
+                      color="ink"
+                      opacity={0.72}
+                      _hover={{ color: "accent.600", opacity: 1 }}
                     >
                       {city.name}
                     </Box>
@@ -115,11 +117,12 @@ export function Footer() {
           align="center"
           gap={4}
           fontSize="sm"
-          color="muted"
+          color="ink"
+          opacity={0.72}
         >
           <Text>© {year} {SITE_NAME}. Усі права захищені.</Text>
           <Link href="/privacy">
-            <Box as="span" _hover={{ color: "accent.500" }}>
+            <Box as="span" _hover={{ color: "accent.600", opacity: 1 }}>
               Політика конфіденційності
             </Box>
           </Link>
