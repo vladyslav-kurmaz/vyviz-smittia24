@@ -12,8 +12,10 @@ export function Hero() {
             src={HERO_BG_MOBILE}
             alt=""
             className="hero-media__img"
+            width={360}
+            height={477}
             fetchPriority="high"
-            decoding="async"
+            decoding="sync"
           />
         </div>
         <div className="hero-media__desktop">
@@ -22,8 +24,10 @@ export function Hero() {
             src={HERO_BG}
             alt=""
             className="hero-media__img"
+            width={1280}
+            height={960}
             fetchPriority="high"
-            decoding="async"
+            decoding="sync"
           />
         </div>
         <HeroVideoLayer />

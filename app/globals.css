@@ -581,6 +581,7 @@ label {
   min-height: 100dvh;
   overflow: hidden;
   padding: 5rem 1rem 3rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
 @media (min-width: 768px) {

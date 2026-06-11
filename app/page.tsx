@@ -52,9 +52,9 @@ export default function HomePage() {
   return (
     <>
       <JsonLd data={homeJsonLd(FAQ_ITEMS)} />
+      <Hero />
       <Header />
       <main>
-        <Hero />
         <Services />
         <Benefits />
         <FleetPricing />

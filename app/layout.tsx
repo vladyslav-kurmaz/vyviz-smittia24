@@ -8,6 +8,9 @@ import { Providers } from "@/components/providers/Providers";
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
   variable: "--font-inter",
+  display: "swap",
+  preload: true,
+  adjustFontFallback: true,
 });
 
 export const metadata: Metadata = defaultMetadata;
@@ -24,14 +27,6 @@ export default function RootLayout({
           rel="preload"
           as="image"
           href="/images/hero/hero-mobile-poster.webp"
-          media="(max-width: 767px)"
-          fetchPriority="high"
-        />
-        <link
-          rel="preload"
-          as="image"
-          href="/images/hero/hero-poster.webp"
-          media="(min-width: 768px)"
           fetchPriority="high"
         />
       </head>
