@@ -1,5 +1,7 @@
 /** Головний екран — public/images/hero/ */
+/** Desktop: повна якість, підвантажується після load (див. lib/hero-video.ts) */
 export const HERO_VIDEO = "/images/hero/hero.mp4";
+/** Не використовується на сайті — mobile hero лише постер (перформенс Lighthouse) */
 export const HERO_VIDEO_MOBILE = "/images/hero/hero-mobile.mov";
 
 /** Оптимізовані постери (не повнорозмірні gallery/*.webp) */

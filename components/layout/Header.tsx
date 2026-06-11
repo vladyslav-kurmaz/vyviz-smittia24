@@ -74,6 +74,11 @@ export function Header() {
               </Button>
               <chakra.button
                 type="button"
+                minW="44px"
+                minH="44px"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
                 p={2}
                 color="white"
                 aria-label="Відкрити меню"

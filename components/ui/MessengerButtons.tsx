@@ -28,7 +28,7 @@ const toneStyles: Record<Tone, { bg: string; color: string; hoverBg: string }> =
 type Props = { size?: "sm" | "md"; className?: string; tone?: Tone };
 
 export function MessengerButtons({ size = "md", className, tone = "default" }: Props) {
-  const boxSize = size === "sm" ? 10 : 12;
+  const boxSize = size === "sm" ? 11 : 12;
   const iconSize = size === "sm" ? 22 : 24;
   const styles = toneStyles[tone];
 

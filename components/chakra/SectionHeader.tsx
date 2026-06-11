@@ -53,7 +53,7 @@ export function SectionHeader({
         <Text
           mt={3}
           fontSize={{ base: "sm", md: "md" }}
-          color={light ? "whiteAlpha.800" : "muted"}
+          color={light ? "white" : "muted"}
           lineHeight="relaxed"
         >
           {subtitle}

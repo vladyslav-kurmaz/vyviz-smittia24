@@ -10,6 +10,7 @@ import {
 } from "@/lib/lead-photos";
 
 type Props = {
+  id?: string;
   onFilesChange: (files: File[]) => void;
   compact?: boolean;
 };
@@ -50,14 +51,15 @@ function PhotoThumbnails() {
             />
             <FileUpload.ItemDeleteTrigger
               position="absolute"
-              top="-4px"
-              right="-4px"
-              boxSize={5}
-              minW={5}
+              top="-10px"
+              right="-10px"
+              boxSize={11}
+              minW={11}
+              minH={11}
               rounded="full"
-              bg="red.500"
+              bg="red.600"
               color="white"
-              fontSize="10px"
+              fontSize="xs"
               lineHeight={1}
               aria-label={`Видалити ${file.name}`}
             />
@@ -118,7 +120,7 @@ function UploadDropzone({ compact }: { compact?: boolean }) {
   );
 }
 
-export function LeadPhotoUpload({ onFilesChange, compact }: Props) {
+export function LeadPhotoUpload({ id, onFilesChange, compact }: Props) {
   const [uploadError, setUploadError] = useState<string | null>(null);
 
   return (
@@ -135,7 +137,7 @@ export function LeadPhotoUpload({ onFilesChange, compact }: Props) {
           setUploadError(getPhotoUploadError(details.files));
         }}
       >
-        <FileUpload.HiddenInput />
+        <FileUpload.HiddenInput id={id} />
         <UploadDropzone compact={compact} />
         <PhotoThumbnails />
         <Text fontSize="xs" color="muted" mt={2}>

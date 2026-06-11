@@ -64,7 +64,7 @@ function PhotoCell({
             alt={alt}
             fill
             loading="lazy"
-            quality={70}
+            quality={60}
             sizes="(max-width: 768px) 90vw, 400px"
             style={{ objectFit: "cover" }}
             onError={() => setFailed(true)}
@@ -154,24 +154,40 @@ export function BeforeAfter() {
             </AnimatePresence>
           </Box>
 
-          <Flex mt={4} gap={1.5} flexWrap="wrap" justify="center" role="tablist" aria-label="Слайди до і після">
+          <Flex
+            mt={4}
+            gap={1}
+            flexWrap="wrap"
+            justify="center"
+            role="group"
+            aria-label="Слайди до і після"
+          >
             {BEFORE_AFTER_PAIRS.map((p, i) => (
               <chakra.button
                 key={p.id}
                 type="button"
-                role="tab"
                 aria-label={`Слайд ${p.id}`}
-                aria-selected={i === index}
+                aria-current={i === index ? "true" : undefined}
                 onClick={() => setIndex(i)}
-                w={i === index ? "20px" : "8px"}
-                h="8px"
-                rounded="full"
-                bg={i === index ? "brand.500" : "brand.100"}
+                minW="44px"
+                minH="44px"
+                display="flex"
+                alignItems="center"
+                justifyContent="center"
                 border="none"
+                bg="transparent"
                 p={0}
                 cursor="pointer"
-                transition="all 0.25s"
-              />
+              >
+                <Box
+                  w={i === index ? "20px" : "8px"}
+                  h="8px"
+                  rounded="full"
+                  bg={i === index ? "brand.600" : "brand.200"}
+                  transition="all 0.25s"
+                  aria-hidden
+                />
+              </chakra.button>
             ))}
           </Flex>
         </Box>

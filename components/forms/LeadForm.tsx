@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useId, useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { THANK_YOU_PATH } from "@/lib/thank-you";
@@ -41,7 +41,20 @@ type Props = {
   onSuccess?: () => void;
 };
 
-function ModalFieldLabel({ children }: { children: React.ReactNode }) {
+function ModalFieldLabel({
+  htmlFor,
+  children,
+}: {
+  htmlFor?: string;
+  children: React.ReactNode;
+}) {
+  if (htmlFor) {
+    return (
+      <label htmlFor={htmlFor} className="lead-modal-label">
+        {children}
+      </label>
+    );
+  }
   return <span className="lead-modal-label">{children}</span>;
 }
 
@@ -57,6 +70,14 @@ export function LeadForm({
 }: Props) {
   const router = useRouter();
   const isModal = variant === "modal";
+  const serviceId = useId();
+  const nameId = useId();
+  const phoneId = useId();
+  const messageId = useId();
+  const inlineServiceId = useId();
+  const inlineNameId = useId();
+  const inlinePhoneId = useId();
+  const inlineMessageId = useId();
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
   const [submitted, setSubmitted] = useState(false);
   const [nameTouched, setNameTouched] = useState(false);
@@ -143,8 +164,9 @@ export function LeadForm({
         />
 
         <div className="lead-modal-field">
-          <ModalFieldLabel>Тип послуги</ModalFieldLabel>
+          <ModalFieldLabel htmlFor={serviceId}>Тип послуги</ModalFieldLabel>
           <select
+            id={serviceId}
             className="lead-modal-input lead-modal-select"
             value={form.service}
             onChange={(e) => setForm({ ...form, service: e.target.value })}
@@ -160,9 +182,10 @@ export function LeadForm({
         </div>
 
         <div className="lead-modal-field">
-          <ModalFieldLabel>Ваше ім&apos;я *</ModalFieldLabel>
+          <ModalFieldLabel htmlFor={nameId}>Ваше ім&apos;я *</ModalFieldLabel>
           <div className={modalInputInnerClass(!!nameError)}>
             <input
+              id={nameId}
               className={`lead-modal-input${nameError ? " lead-modal-input--invalid" : ""}`}
               aria-invalid={!!nameError}
               {...nameInputProps}
@@ -172,9 +195,10 @@ export function LeadForm({
         </div>
 
         <div className="lead-modal-field">
-          <ModalFieldLabel>Номер телефону *</ModalFieldLabel>
+          <ModalFieldLabel htmlFor={phoneId}>Номер телефону *</ModalFieldLabel>
           <div className={modalInputInnerClass(!!phoneError)}>
             <input
+              id={phoneId}
               className={`lead-modal-input${phoneError ? " lead-modal-input--invalid" : ""}`}
               aria-invalid={!!phoneError}
               placeholder={PHONE_UA_MASK_HINT}
@@ -185,8 +209,9 @@ export function LeadForm({
         </div>
 
         <div className="lead-modal-field">
-          <ModalFieldLabel>Коментар / адреса</ModalFieldLabel>
+          <ModalFieldLabel htmlFor={messageId}>Коментар / адреса</ModalFieldLabel>
           <AutoResizeTextarea
+            id={messageId}
             className="lead-modal-input lead-modal-textarea"
             minRows={2}
             value={form.message}
@@ -195,8 +220,10 @@ export function LeadForm({
         </div>
 
         <div className="lead-modal-field lead-modal-field--upload">
-          <ModalFieldLabel>Фото (до {LEAD_PHOTO_MAX_COUNT})</ModalFieldLabel>
-          <LeadPhotoUpload onFilesChange={setPhotos} />
+          <ModalFieldLabel htmlFor={`${messageId}-photos`}>
+            Фото (до {LEAD_PHOTO_MAX_COUNT})
+          </ModalFieldLabel>
+          <LeadPhotoUpload id={`${messageId}-photos`} onFilesChange={setPhotos} />
         </div>
 
         <label className="lead-modal-consent">
@@ -263,11 +290,12 @@ export function LeadForm({
 
       <Stack gap={4}>
         <Box>
-          <Text mb={1} fontSize="sm" fontWeight="medium">
+          <label htmlFor={inlineNameId} className="block mb-1 text-sm font-medium text-[#1F1C1A]">
             Ім&apos;я *
-          </Text>
+          </label>
           <Box position="relative" mb={nameError ? 4 : 0}>
             <Input
+              id={inlineNameId}
               aria-invalid={!!nameError}
               borderColor={nameError ? "red.500" : undefined}
               {...fieldProps}
@@ -278,11 +306,12 @@ export function LeadForm({
         </Box>
 
         <Box>
-          <Text mb={1} fontSize="sm" fontWeight="medium">
+          <label htmlFor={inlinePhoneId} className="block mb-1 text-sm font-medium text-[#1F1C1A]">
             Телефон *
-          </Text>
+          </label>
           <Box position="relative" mb={phoneError ? 4 : 0}>
             <Input
+              id={inlinePhoneId}
               aria-invalid={!!phoneError}
               borderColor={phoneError ? "red.500" : undefined}
               placeholder={PHONE_UA_MASK_HINT}
@@ -294,11 +323,12 @@ export function LeadForm({
         </Box>
 
         <Box>
-          <Text mb={1} fontSize="sm" fontWeight="medium">
+          <label htmlFor={inlineServiceId} className="block mb-1 text-sm font-medium text-[#1F1C1A]">
             Тип послуги
-          </Text>
+          </label>
           <select
-            className="w-full rounded-[4px] bg-[#F6F3EA] px-4 py-3 border-0 focus:outline-2 focus:outline-[#D97708]"
+            id={inlineServiceId}
+            className="w-full rounded-[4px] bg-[#F6F3EA] px-4 py-3 border-0 focus:outline-2 focus:outline-[#B95F05]"
             value={form.service}
             onChange={(e) => setForm({ ...form, service: e.target.value })}
           >
@@ -313,10 +343,11 @@ export function LeadForm({
         </Box>
 
         <Box>
-          <Text mb={1} fontSize="sm" fontWeight="medium">
+          <label htmlFor={inlineMessageId} className="block mb-1 text-sm font-medium text-[#1F1C1A]">
             Коментар / адреса
-          </Text>
+          </label>
           <AutoResizeTextarea
+            id={inlineMessageId}
             variant="chakra"
             minRows={2}
             value={form.message}
@@ -340,7 +371,7 @@ export function LeadForm({
           />
           <Box fontSize="sm" color="muted" lineHeight="relaxed">
             Погоджуюсь на обробку персональних даних згідно з{" "}
-            <ChakraLink href="/privacy" color="accent.500" textDecoration="underline">
+            <ChakraLink href="/privacy" color="accent.600" textDecoration="underline">
               політикою конфіденційності
             </ChakraLink>
           </Box>

@@ -8,11 +8,10 @@ import { Button } from "@/components/ui/Button";
 import {
   HERO_BG,
   HERO_BG_MOBILE,
-  HERO_MOBILE_POSTER,
   HERO_POSTER,
   HERO_VIDEO,
-  HERO_VIDEO_MOBILE,
 } from "@/lib/hero";
+import { scheduleHeroVideoLoad } from "@/lib/hero-video";
 
 function HeroBackgroundVideo({
   src,
@@ -50,7 +49,7 @@ function HeroBackgroundVideo({
 
     video.addEventListener("ended", onEnded);
     return () => video.removeEventListener("ended", onEnded);
-  }, [ensurePlay]);
+  }, [ensurePlay, src]);
 
   return (
     <video
@@ -60,7 +59,7 @@ function HeroBackgroundVideo({
       muted
       loop
       playsInline
-      preload="metadata"
+      preload="none"
       poster={poster}
       onError={onFallback}
       onLoadedData={() => void ensurePlay()}
@@ -79,9 +78,13 @@ function HeroBackgroundVideo({
 export function Hero() {
   const reduceMotion = useReducedMotion();
   const [desktopVideoOk, setDesktopVideoOk] = useState(true);
-  const [mobileVideoOk, setMobileVideoOk] = useState(true);
+  const [loadDesktopVideo, setLoadDesktopVideo] = useState(false);
   const showDesktopVideo = !reduceMotion && desktopVideoOk;
-  const showMobileVideo = !reduceMotion && mobileVideoOk;
+
+  useEffect(() => {
+    if (!showDesktopVideo) return;
+    return scheduleHeroVideoLoad(() => setLoadDesktopVideo(true));
+  }, [showDesktopVideo]);
 
   const slide = (delay: number) =>
     reduceMotion
@@ -114,37 +117,31 @@ export function Hero() {
         overflow="hidden"
         pointerEvents="none"
       >
+        {/* Мобайл: лише легкий постер — без 18 MB .mov (Lighthouse mobile) */}
         <Box display={{ base: "block", md: "none" }} position="absolute" inset={0}>
           <Image
             src={HERO_BG_MOBILE}
             alt=""
             fill
             priority
-            quality={70}
+            quality={60}
             sizes="100vw"
             style={{ objectFit: "cover", objectPosition: "center" }}
           />
-          {showMobileVideo && (
-            <Box position="absolute" inset={0}>
-              <HeroBackgroundVideo
-                src={HERO_VIDEO_MOBILE}
-                poster={HERO_MOBILE_POSTER}
-                onFallback={() => setMobileVideoOk(false)}
-              />
-            </Box>
-          )}
         </Box>
+
+        {/* Десктоп: постер одразу, повноякісне відео після load + idle */}
         <Box display={{ base: "none", md: "block" }} position="absolute" inset={0}>
           <Image
             src={HERO_BG}
             alt=""
             fill
             priority
-            quality={70}
+            quality={60}
             sizes="100vw"
             style={{ objectFit: "cover", objectPosition: "center" }}
           />
-          {showDesktopVideo && (
+          {showDesktopVideo && loadDesktopVideo && (
             <Box position="absolute" inset={0}>
               <HeroBackgroundVideo
                 src={HERO_VIDEO}
@@ -154,6 +151,7 @@ export function Hero() {
             </Box>
           )}
         </Box>
+
         <Box position="absolute" inset={0} bg="blackAlpha.400" />
         <Box
           position="absolute"

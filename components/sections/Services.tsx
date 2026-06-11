@@ -108,7 +108,7 @@ export function Services({ showTrustStrip = true }: ServicesProps) {
           align="center"
         />
 
-        <div className="services-switcher">
+        <div className="services-switcher" role="radiogroup" aria-label="Види послуг">
         {FEATURED_SERVICES.map((service, index) => (
           <input
             key={service.id}
@@ -117,10 +117,11 @@ export function Services({ showTrustStrip = true }: ServicesProps) {
             id={`svc-radio-${service.id}`}
             defaultChecked={index === 0}
             className="services-radio"
+            aria-label={service.tab}
           />
         ))}
 
-        <div className="service-tablist" role="tablist" aria-label="Види послуг">
+        <div className="service-tablist">
           {FEATURED_SERVICES.map((service) => (
             <label
               key={service.id}
@@ -137,7 +138,6 @@ export function Services({ showTrustStrip = true }: ServicesProps) {
             <div
               key={service.id}
               className={`service-panel service-panel-${service.id}`}
-              role="tabpanel"
             >
               <ServicePanelContent
                 title={service.title}

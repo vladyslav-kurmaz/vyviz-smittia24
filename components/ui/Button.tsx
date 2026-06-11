@@ -64,11 +64,11 @@ export function Button({
 
   const variants = {
     primary: {
-      bg: "accent.500",
+      bg: "accent.600",
       color: "white",
       border: "none",
       _hover: {
-        bg: "accent.600",
+        bg: "accent.700",
         shadow: "glow",
         transform: "translateY(-1px)",
       },
@@ -96,8 +96,8 @@ export function Button({
       : {
           variant: "outline" as const,
           borderWidth: "2px",
-          borderColor: "brand.500",
-          color: "brand.500",
+          borderColor: "brand.600",
+          color: "brand.700",
           bg: "surface",
           shadow: "none",
           _hover: { bg: "brand.50", shadow: "btn", transform: "translateY(-1px)" },

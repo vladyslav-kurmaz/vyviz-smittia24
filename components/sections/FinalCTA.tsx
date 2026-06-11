@@ -58,7 +58,7 @@ export function FinalCTA() {
               >
                 {PHONE_CALLS_ONLY_DISPLAY}
               </ChakraLink>
-              <Box fontSize="sm" color="whiteAlpha.800" lineHeight="relaxed">
+              <Box fontSize="sm" color="white" lineHeight="relaxed">
                 Не знаєте точну суму? Надішліть фото — розрахуємо за 10 хвилин
               </Box>
               <MessengerButtons className="mt-2" tone="onDark" />

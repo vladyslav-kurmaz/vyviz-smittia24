@@ -24,7 +24,7 @@ export function Accordion({ items }: { items: Item[] }) {
           <Surface key={item.question} overflow="hidden" p={0} hover={false}>
             <button
               type="button"
-              style={{ width: "100%" }}
+              style={{ width: "100%", minHeight: "44px" }}
               onClick={() => setOpen(isOpen ? null : i)}
               aria-expanded={isOpen}
             >
@@ -33,7 +33,8 @@ export function Accordion({ items }: { items: Item[] }) {
                 justify="space-between"
                 gap={4}
                 px={6}
-                py={5}
+                py={4}
+                minH="44px"
                 textAlign="left"
                 fontWeight="semibold"
                 color="ink"
