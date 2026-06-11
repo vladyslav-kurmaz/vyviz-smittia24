@@ -14,7 +14,15 @@ import {
   getGalleryImagePath,
 } from "@/lib/gallery";
 
-function GalleryImage({ id, onReady }: { id: number; onReady?: () => void }) {
+function GalleryImage({
+  id,
+  priority,
+  onReady,
+}: {
+  id: number;
+  priority?: boolean;
+  onReady?: () => void;
+}) {
   const [failed, setFailed] = useState(false);
   const src = getGalleryImagePath(id);
 
@@ -28,7 +36,9 @@ function GalleryImage({ id, onReady }: { id: number; onReady?: () => void }) {
         src={src}
         alt={`Наші роботи — фото ${id}`}
         fill
-        unoptimized
+        priority={priority}
+        loading={priority ? undefined : "lazy"}
+        quality={70}
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         style={{ objectFit: "cover" }}
         onLoad={onReady}
@@ -54,6 +64,7 @@ export function Gallery() {
   const reduceMotion = useReducedMotion();
   const [expanded, setExpanded] = useState(false);
   const gridRef = useRef<HTMLDivElement>(null);
+  const rafRef = useRef<number | null>(null);
   const [collapsedH, setCollapsedH] = useState(0);
   const [fullH, setFullH] = useState(0);
 
@@ -67,20 +78,31 @@ export function Gallery() {
     setCollapsedH(measureCollapsedHeight(grid, GALLERY_INITIAL_COUNT));
   }, []);
 
+  const scheduleUpdateHeights = useCallback(() => {
+    if (rafRef.current != null) return;
+    rafRef.current = requestAnimationFrame(() => {
+      rafRef.current = null;
+      updateHeights();
+    });
+  }, [updateHeights]);
+
   useLayoutEffect(() => {
-    updateHeights();
+    scheduleUpdateHeights();
     const grid = gridRef.current;
     if (!grid || typeof ResizeObserver === "undefined") return;
 
-    const ro = new ResizeObserver(() => updateHeights());
+    const ro = new ResizeObserver(() => scheduleUpdateHeights());
     ro.observe(grid);
-    window.addEventListener("resize", updateHeights);
+    window.addEventListener("resize", scheduleUpdateHeights);
 
     return () => {
       ro.disconnect();
-      window.removeEventListener("resize", updateHeights);
+      window.removeEventListener("resize", scheduleUpdateHeights);
+      if (rafRef.current != null) {
+        cancelAnimationFrame(rafRef.current);
+      }
     };
-  }, [updateHeights]);
+  }, [scheduleUpdateHeights]);
 
   const toggle = () => setExpanded((v) => !v);
 
@@ -114,9 +136,13 @@ export function Gallery() {
               gridTemplateColumns={{ base: "1fr", sm: "1fr 1fr", lg: "repeat(3, 1fr)" }}
               gap={4}
             >
-              {GALLERY_IMAGE_IDS.map((id) => (
+              {GALLERY_IMAGE_IDS.map((id, index) => (
                 <Box key={id} overflow="hidden" rounded="card">
-                  <GalleryImage id={id} onReady={updateHeights} />
+                  <GalleryImage
+                    id={id}
+                    priority={index < GALLERY_INITIAL_COUNT}
+                    onReady={scheduleUpdateHeights}
+                  />
                 </Box>
               ))}
             </Box>

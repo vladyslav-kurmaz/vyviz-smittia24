@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/Button";
 import {
   HERO_BG,
   HERO_BG_MOBILE,
+  HERO_MOBILE_POSTER,
+  HERO_POSTER,
   HERO_VIDEO,
   HERO_VIDEO_MOBILE,
 } from "@/lib/hero";
@@ -58,7 +60,7 @@ function HeroBackgroundVideo({
       muted
       loop
       playsInline
-      preload="auto"
+      preload="metadata"
       poster={poster}
       onError={onFallback}
       onLoadedData={() => void ensurePlay()}
@@ -118,6 +120,7 @@ export function Hero() {
             alt=""
             fill
             priority
+            quality={70}
             sizes="100vw"
             style={{ objectFit: "cover", objectPosition: "center" }}
           />
@@ -125,7 +128,7 @@ export function Hero() {
             <Box position="absolute" inset={0}>
               <HeroBackgroundVideo
                 src={HERO_VIDEO_MOBILE}
-                poster={HERO_BG_MOBILE}
+                poster={HERO_MOBILE_POSTER}
                 onFallback={() => setMobileVideoOk(false)}
               />
             </Box>
@@ -137,6 +140,7 @@ export function Hero() {
             alt=""
             fill
             priority
+            quality={70}
             sizes="100vw"
             style={{ objectFit: "cover", objectPosition: "center" }}
           />
@@ -144,7 +148,7 @@ export function Hero() {
             <Box position="absolute" inset={0}>
               <HeroBackgroundVideo
                 src={HERO_VIDEO}
-                poster={HERO_BG}
+                poster={HERO_POSTER}
                 onFallback={() => setDesktopVideoOk(false)}
               />
             </Box>

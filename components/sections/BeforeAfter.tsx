@@ -63,7 +63,8 @@ function PhotoCell({
             src={src}
             alt={alt}
             fill
-            unoptimized
+            loading="lazy"
+            quality={70}
             sizes="(max-width: 768px) 90vw, 400px"
             style={{ objectFit: "cover" }}
             onError={() => setFailed(true)}
