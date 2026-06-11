@@ -13,6 +13,6 @@ export const SITE_NAME =
   process.env.NEXT_PUBLIC_SITE_NAME ?? "Вивіз Сміття 24";
 
 /** Час подачі авто */
-export const VEHICLE_ARRIVAL_SHORT = "від 30 хв";
+export const VEHICLE_ARRIVAL_SHORT = "від 60 хв";
 export const VEHICLE_ARRIVAL_FULL =
-  "від 30 хв (залежить від вашої локації)";
+  "від 60 хв (залежить від вашої локації)";

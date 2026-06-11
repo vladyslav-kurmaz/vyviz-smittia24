@@ -27,9 +27,9 @@ export function PriceFormation() {
               Умовно
             </Text>
             <Text fontSize="sm" color="ink" lineHeight="relaxed">
-              Наприклад, 7 м³ сміття: подача від {VOLUME_PRICING.baseDelivery} грн + 7 ×{" "}
-              {VOLUME_PRICING.withLoaders.perCubic} грн = орієнтовно 6400 грн з
-              вантажниками, або близько 5700 грн, якщо винесете сміття самостійно.
+              Наприклад, 7 м³ сміття: подача {VOLUME_PRICING.baseDelivery} грн + 7 ×{" "}
+              {VOLUME_PRICING.withLoaders.perCubic} грн = орієнтовно 6600 грн з нашим
+              завантаженням, або близько 6250 грн, якщо завантажуєте самостійно.
             </Text>
           </Surface>
 

@@ -4,6 +4,8 @@ export type FleetVehicle = {
   name: string;
   dimensions: string;
   volume: string;
+  /** Вантажопідйомність, напр. «5 т» */
+  payload?: string;
   image: string;
   priceFrom?: number;
   /** Замість «від … грн» — напр. погодинна ставка */
@@ -17,8 +19,9 @@ export const FLEET_VEHICLES: FleetVehicle[] = [
     id: "bus",
     name: "Бус",
     dimensions: "4 × 1,8 × 1,7 м",
-    volume: "12 м³",
-    priceFrom: 800,
+    volume: "10 м³",
+    payload: "до 2 т",
+    priceFrom: 1000,
     image: "/images/fleet/fleet-bus.webp",
   },
   {
@@ -26,6 +29,7 @@ export const FLEET_VEHICLES: FleetVehicle[] = [
     name: "Газель",
     dimensions: "4,3 × 2 × 1,8 м",
     volume: "15 м³",
+    payload: "до 2,5 т",
     priceFrom: 1000,
     image: "/images/fleet/fleet-gazel.webp",
   },
@@ -33,7 +37,8 @@ export const FLEET_VEHICLES: FleetVehicle[] = [
     id: "zil",
     name: "ЗІЛ",
     dimensions: "3,6 × 2,3 × 1 м",
-    volume: "8 м³",
+    volume: "5 м³",
+    payload: "5 т",
     priceFrom: 2500,
     image: "/images/fleet/fleet-zil.webp",
   },
@@ -41,7 +46,8 @@ export const FLEET_VEHICLES: FleetVehicle[] = [
     id: "kamaz",
     name: "Камаз",
     dimensions: "4,5 × 2,3 × 1,5 м",
-    volume: "15 м³",
+    volume: "12 м³",
+    payload: "10 т",
     priceFrom: 3500,
     image: "/images/fleet/fleet-kamaz.webp",
   },
@@ -63,37 +69,38 @@ export function formatFleetPrice(vehicle: FleetVehicle): string {
 }
 
 export const VOLUME_PRICING = {
-  withLoaders: { perCubic: 800, perBag: 60 },
-  withoutLoaders: { perCubic: 700, perBag: 60 },
-  perFloorNoElevator: 50,
+  baseDelivery: 1000,
+  withLoaders: { perCubic: 800 },
+  withoutLoaders: { perCubic: 750 },
+  householdBag: 80,
+  constructionBag: 100,
+  perFloorNoElevator: 20,
+  distanceFreeMeters: 20,
+  distanceBlockMeters: 20,
+  distanceBlockPrice: 15,
   minCubicMeters: 5,
-  baseDelivery: 800,
 } as const;
 
 export const PRICE_FACTORS = [
   {
+    title: "Подача автомобіля",
+    description: `${VOLUME_PRICING.baseDelivery} грн — підбираємо техніку під обсяг, щоб забрати все за один виїзд.`,
+  },
+  {
     title: "Обсяг сміття",
-    description: `З вантажниками: 1 м³ — ${VOLUME_PRICING.withLoaders.perCubic} грн, мішок до 30 кг — ${VOLUME_PRICING.withLoaders.perBag} грн. Без вантажників: 1 м³ — ${VOLUME_PRICING.withoutLoaders.perCubic} грн, мішок — ${VOLUME_PRICING.withoutLoaders.perBag} грн. Спуск без ліфта — від ${VOLUME_PRICING.perFloorNoElevator} грн/поверх.`,
+    description: `Наше завантаження — ${VOLUME_PRICING.withLoaders.perCubic} грн/м³. Завантаження замовника — ${VOLUME_PRICING.withoutLoaders.perCubic} грн/м³.`,
   },
   {
-    title: "Подача авто",
-    description:
-      "Підбираємо техніку під обсяг — менші авто для побутового, більші для будівельного, щоб забрати все за один виїзд.",
+    title: "Пакування в мішки",
+    description: `Побутовий мотлох у наші мішки з завантаженням — ${VOLUME_PRICING.householdBag} грн/мішок. Будівельне сміття (під лопату) — ${VOLUME_PRICING.constructionBag} грн/мішок.`,
   },
   {
-    title: "Вантажники",
-    description:
-      "Можете винести сміття самостійно — платите лише за машину. Або додамо вантажників за кількістю кубів/мішків.",
+    title: "Відстань до автомобіля",
+    description: `До ${VOLUME_PRICING.distanceFreeMeters} м — без доплати. Якщо далі — ${VOLUME_PRICING.distanceBlockPrice} грн за кожні ${VOLUME_PRICING.distanceBlockMeters} м.`,
   },
   {
-    title: "Поверх і відстань",
-    description:
-      "Якщо сміття з високого поверху без ліфта або далеко від авто — враховуємо час роботи.",
-  },
-  {
-    title: "Тип сміття",
-    description:
-      "Будівельні матеріали, побутові речі, змішані відходи чи рослинні рештки — ціна залежить від обсягу та ваги.",
+    title: "Спуск без ліфта",
+    description: `${VOLUME_PRICING.perFloorNoElevator} грн/поверх, якщо ліфта немає.`,
   },
 ] as const;
 

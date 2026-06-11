@@ -4,11 +4,12 @@ import { Box, SimpleGrid, Text } from "@chakra-ui/react";
 import { motion, useReducedMotion } from "framer-motion";
 import { Surface } from "@/components/chakra/Surface";
 import { VEHICLE_ARRIVAL_SHORT } from "@/lib/contacts";
+import { VOLUME_PRICING } from "@/lib/fleet";
 
 const STATS = [
   { value: VEHICLE_ARRIVAL_SHORT, label: "подача авто, залежить від локації" },
   { value: "24/7", label: "приймаємо заявки" },
-  { value: "від 800 ₴", label: "подача буса" },
+  { value: `від ${VOLUME_PRICING.baseDelivery} ₴`, label: "подача автомобіля" },
   { value: "100%", label: "легальна утилізація" },
 ];
 

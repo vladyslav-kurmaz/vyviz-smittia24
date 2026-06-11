@@ -94,7 +94,9 @@ export function Calculator() {
   const [withLoaders, setWithLoaders] = useState(true);
   const [floor, setFloor] = useState(0);
   const [hasElevator, setHasElevator] = useState(true);
-  const [bags, setBags] = useState(0);
+  const [householdBags, setHouseholdBags] = useState(0);
+  const [constructionBags, setConstructionBags] = useState(0);
+  const [distanceMeters, setDistanceMeters] = useState(0);
 
   const canCalculate = cubicMeters >= PRICING.minCubicMeters;
 
@@ -112,9 +114,19 @@ export function Calculator() {
         withLoaders,
         floor,
         hasElevator,
-        bags,
+        householdBags,
+        constructionBags,
+        distanceMeters,
       }),
-    [volume, withLoaders, floor, hasElevator, bags]
+    [
+      volume,
+      withLoaders,
+      floor,
+      hasElevator,
+      householdBags,
+      constructionBags,
+      distanceMeters,
+    ]
   );
 
   function selectVehicle(id: string) {
@@ -222,7 +234,7 @@ export function Calculator() {
                           {v.name}
                         </Text>
                         <Text fontSize="xs" color="muted">
-                          {v.volume} м³ · від {v.priceFrom} грн
+                          {v.volume} м³ · {v.tons} · від {v.priceFrom} грн
                         </Text>
                       </Box>
                     </chakra.button>
@@ -262,8 +274,12 @@ export function Calculator() {
             <Toggle
               checked={withLoaders}
               onChange={setWithLoaders}
-              label="Потрібні вантажники"
-              description="Зносимо та завантажуємо самі"
+              label="Наше завантаження"
+              description={
+                withLoaders
+                  ? `${PRICING.perCubicWithLoaders} грн/м³ — зносимо та завантажуємо самі`
+                  : `${PRICING.perCubicNoLoaders} грн/м³ — завантаження замовника`
+              }
             />
 
             <Grid templateColumns="1fr 1fr" gap={4}>
@@ -283,14 +299,42 @@ export function Calculator() {
               </Box>
               <Box>
                 <Text fontSize="sm" fontWeight="semibold" color="ink" mb={2}>
-                  Мішків (опц.)
+                  Відстань до авто, м
                 </Text>
                 <Input
                   type="text"
                   inputMode="numeric"
-                  placeholder="0"
-                  value={bags > 0 ? String(bags) : ""}
-                  onChange={(e) => handleDigitsOnly(e, setBags)}
+                  placeholder={`до ${PRICING.distanceFreeMeters} м без доплати`}
+                  value={distanceMeters > 0 ? String(distanceMeters) : ""}
+                  onChange={(e) => handleDigitsOnly(e, setDistanceMeters)}
+                  onKeyDown={blockNonDigitKeys}
+                  {...inputStyles}
+                />
+              </Box>
+              <Box>
+                <Text fontSize="sm" fontWeight="semibold" color="ink" mb={2}>
+                  Побутові мішки
+                </Text>
+                <Input
+                  type="text"
+                  inputMode="numeric"
+                  placeholder={`${PRICING.householdBag} грн/шт`}
+                  value={householdBags > 0 ? String(householdBags) : ""}
+                  onChange={(e) => handleDigitsOnly(e, setHouseholdBags)}
+                  onKeyDown={blockNonDigitKeys}
+                  {...inputStyles}
+                />
+              </Box>
+              <Box>
+                <Text fontSize="sm" fontWeight="semibold" color="ink" mb={2}>
+                  Будівельні мішки
+                </Text>
+                <Input
+                  type="text"
+                  inputMode="numeric"
+                  placeholder={`${PRICING.constructionBag} грн/шт`}
+                  value={constructionBags > 0 ? String(constructionBags) : ""}
+                  onChange={(e) => handleDigitsOnly(e, setConstructionBags)}
                   onKeyDown={blockNonDigitKeys}
                   {...inputStyles}
                 />
@@ -301,7 +345,11 @@ export function Calculator() {
               checked={hasElevator}
               onChange={setHasElevator}
               label="Є ліфт"
-              description={!hasElevator && floor > 0 ? "+50 грн за поверх без ліфта" : undefined}
+              description={
+                !hasElevator && floor > 0
+                  ? `+${PRICING.perFloorNoElevator} грн за поверх без ліфта`
+                  : undefined
+              }
             />
           </Stack>
         </Surface>
@@ -358,11 +406,13 @@ export function Calculator() {
 
           <Box mt={4} p={4} rounded="card" bg="surface" shadow="card">
             <Text fontSize="xs" color="muted" lineHeight="relaxed">
-              <Box as="span" fontWeight="semibold" color="ink">
-                Подача від {PRICING.baseDelivery} грн
-              </Box>
-              {" · "}1 м³: {PRICING.perCubicWithLoaders} грн (з вантажниками) /{" "}
-              {PRICING.perCubicNoLoaders} грн (без)
+              Подача {PRICING.baseDelivery} грн · наше завантаження{" "}
+              {PRICING.perCubicWithLoaders} грн/м³ · завантаження замовника{" "}
+              {PRICING.perCubicNoLoaders} грн/м³ · до {PRICING.distanceFreeMeters} м до
+              авто без доплати · далі {PRICING.distanceBlockPrice} грн/
+              {PRICING.distanceBlockMeters} м · побутовий мішок {PRICING.householdBag}{" "}
+              грн · будівельний {PRICING.constructionBag} грн · спуск без ліфта{" "}
+              {PRICING.perFloorNoElevator} грн/поверх
             </Text>
           </Box>
         </Box>

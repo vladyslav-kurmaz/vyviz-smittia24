@@ -13,7 +13,7 @@ import {
 
 export function FinalCTA() {
   return (
-    <Box as="section" id="contact" position="relative" overflow="hidden" py={{ base: 12, md: 16 }}>
+    <Box as="section" id="contact" position="relative" py={{ base: 12, md: 16 }}>
       <Box
         position="absolute"
         inset={0}
@@ -24,7 +24,12 @@ export function FinalCTA() {
       />
       <Box position="relative" zIndex={1} maxW="7xl" mx="auto" px={{ base: 4, md: 6 }}>
         <SimpleGrid columns={{ base: 1, lg: 2 }} gap={{ base: 8, lg: 10 }} alignItems="start">
-          <Box>
+          <Box
+            position={{ base: "relative", lg: "sticky" }}
+            top={{ lg: "100px" }}
+            alignSelf="start"
+            zIndex={1}
+          >
             <SectionHeader
               eyebrow="Контакти"
               title="Ми швидко зв'яжемося з вами"

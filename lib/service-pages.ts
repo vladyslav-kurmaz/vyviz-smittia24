@@ -1,3 +1,4 @@
+import { VEHICLE_ARRIVAL_FULL } from "@/lib/contacts";
 import { VOLUME_PRICING } from "@/lib/fleet";
 import { seoHeroImages, type SeoHeroImages } from "@/lib/seo-hero";
 import type { Service } from "@/lib/services";
@@ -17,7 +18,7 @@ const defaultFaq = (serviceName: string): SeoFaqItem[] => [
   {
     question: "Як швидко можливий виїзд?",
     answer:
-      "Подаємо авто від 30 хвилин після узгодження деталей. У більшості випадків виїжджаємо в день звернення.",
+      `Подаємо авто ${VEHICLE_ARRIVAL_FULL} після узгодження деталей. У більшості випадків виїжджаємо в день звернення.`,
   },
   {
     question: `Скільки коштує ${serviceName.toLowerCase()}?`,

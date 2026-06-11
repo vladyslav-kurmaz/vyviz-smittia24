@@ -101,6 +101,23 @@ function FleetRow({ vehicle, index }: { vehicle: FleetVehicle; index: number }) 
             </Box>
           )}
 
+          {vehicle.payload && (
+            <Box>
+              <Text fontSize="sm" color="muted" lineHeight="relaxed">
+                вантажопідйомність:
+              </Text>
+              <Text
+                fontSize={{ base: "md", md: "lg" }}
+                fontWeight="semibold"
+                color="brand.600"
+                lineHeight="relaxed"
+                mt={0.5}
+              >
+                {vehicle.payload}
+              </Text>
+            </Box>
+          )}
+
           <Heading
             as="p"
             fontSize={{ base: "xl", md: "2xl" }}

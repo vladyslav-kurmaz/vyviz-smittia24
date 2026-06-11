@@ -192,17 +192,15 @@ export function Hero() {
           <motion.div {...slide(0.08)}>
             <Heading
               as="h1"
-              fontSize={{ base: "2.75rem", md: "3.5rem", lg: "4.25rem" }}
+              fontSize={{ base: "2rem", sm: "2.5rem", md: "3.25rem", lg: "3.75rem" }}
               fontWeight="extrabold"
-              lineHeight="1.08"
+              lineHeight="1.1"
               letterSpacing="-0.03em"
               color="white"
               textShadow="0 2px 20px rgba(0,0,0,0.45)"
+              textWrap="balance"
             >
-              Вивіз сміття швидко
-              <Box as="span" display="block" color="#ffedd5" mt={1}>
-                без зайвих клопотів
-              </Box>
+              Вивіз будь-якого сміття по всій Київській області
             </Heading>
           </motion.div>
 

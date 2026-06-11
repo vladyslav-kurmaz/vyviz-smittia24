@@ -1,3 +1,4 @@
+import { VEHICLE_ARRIVAL_FULL } from "@/lib/contacts";
 import { VOLUME_PRICING } from "@/lib/fleet";
 import { seoHeroImages, type SeoHeroImages } from "@/lib/seo-hero";
 import type { CityPage } from "@/lib/cities";
@@ -26,11 +27,11 @@ function cityFaq(city: CityPage): SeoFaqItem[] {
     {
       question: `Як швидко приїдемо ${locative}?`,
       answer:
-        "Зазвичай подача авто займає від 30 хвилин до кількох годин після дзвінка — залежно від завантаженості. У більшості випадків виїжджаємо в день замовлення. Надішліть фото у месенджер — назвемо точну ціну за 10 хвилин.",
+        `Зазвичай подача авто — ${VEHICLE_ARRIVAL_FULL}. У більшості випадків виїжджаємо в день замовлення. Надішліть фото у месенджер — назвемо точну ціну за 10 хвилин.`,
     },
     {
       question: `Скільки коштує вивіз сміття ${locative}?`,
-      answer: `Без вантажників — від ${VOLUME_PRICING.withoutLoaders.perCubic} грн/м³ або ${VOLUME_PRICING.withoutLoaders.perBag} грн/мішок. З вантажниками — від ${VOLUME_PRICING.withLoaders.perCubic} грн/м³ або ${VOLUME_PRICING.withLoaders.perBag} грн/мішок. Подача авто — від ${VOLUME_PRICING.baseDelivery} грн. Точну суму рахуємо за фото.`,
+      answer: `Подача авто — ${VOLUME_PRICING.baseDelivery} грн. Наше завантаження — ${VOLUME_PRICING.withLoaders.perCubic} грн/м³, завантаження замовника — ${VOLUME_PRICING.withoutLoaders.perCubic} грн/м³. Побутовий мішок — ${VOLUME_PRICING.householdBag} грн, будівельний — ${VOLUME_PRICING.constructionBag} грн. Точну суму рахуємо за фото.`,
     },
     {
       question: `Є мінімальний обсяг замовлення для ${name}?`,
