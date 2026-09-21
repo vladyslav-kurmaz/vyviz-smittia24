@@ -64,14 +64,21 @@ export function Header() {
             </Flex>
 
             <Flex display={{ base: "flex", lg: "none" }} align="center" gap={2}>
-              <Button
-                href="#contact"
-                variant="primary"
-                size="sm"
-                aria-label="Обговорити замовлення"
+              <ChakraLink
+                href={`tel:${PHONE_MAIN}`}
+                display="flex"
+                alignItems="center"
+                minH="44px"
+                px={2}
+                fontSize={{ base: "md", md: "lg" }}
+                fontWeight="bold"
+                color="white"
+                whiteSpace="nowrap"
+                aria-label={`Подзвонити: ${PHONE_MAIN_DISPLAY}`}
+                data-event="call_click"
               >
-                Обговорити
-              </Button>
+                {PHONE_MAIN_DISPLAY}
+              </ChakraLink>
               <chakra.button
                 type="button"
                 minW="44px"

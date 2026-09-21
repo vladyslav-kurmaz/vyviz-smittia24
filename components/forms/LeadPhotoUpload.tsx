@@ -126,6 +126,7 @@ export function LeadPhotoUpload({ id, onFilesChange, compact }: Props) {
   return (
     <Box w="full">
       <FileUpload.Root
+        ids={id ? { hiddenInput: id } : undefined}
         maxFiles={LEAD_PHOTO_MAX_COUNT}
         maxFileSize={LEAD_PHOTO_MAX_BYTES}
         accept="image/*"
@@ -137,7 +138,7 @@ export function LeadPhotoUpload({ id, onFilesChange, compact }: Props) {
           setUploadError(getPhotoUploadError(details.files));
         }}
       >
-        <FileUpload.HiddenInput id={id} />
+        <FileUpload.HiddenInput />
         <UploadDropzone compact={compact} />
         <PhotoThumbnails />
         <Text fontSize="xs" color="muted" mt={2}>
