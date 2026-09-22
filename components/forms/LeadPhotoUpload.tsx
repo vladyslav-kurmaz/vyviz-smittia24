@@ -4,7 +4,6 @@ import { useState } from "react";
 import { Box, Text, FileUpload, useFileUploadContext } from "@chakra-ui/react";
 import {
   getPhotoUploadError,
-  LEAD_PHOTO_MAX_BYTES,
   LEAD_PHOTO_MAX_RAW_BYTES,
   LEAD_PHOTO_MAX_COUNT,
   formatPhotoSizeMb,
