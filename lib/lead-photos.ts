@@ -1,6 +1,14 @@
-/** Обмеження для фото у формі заявки */
+/** Обмеження для фото у формі заявки (те, що бачить користувач) */
 export const LEAD_PHOTO_MAX_COUNT = 5;
 export const LEAD_PHOTO_MAX_BYTES = 5 * 1024 * 1024; // 5 МБ
+
+/**
+ * Реальний ліміт прийому оригінального файлу до стиснення.
+ * Телефонні фото часто важать більше за 5 МБ — приймаємо такий файл,
+ * а перед відправкою автоматично стискаємо (див. lib/compress-image.ts),
+ * щоб не показувати користувачу помилку там, де ми можемо впоратись самі.
+ */
+export const LEAD_PHOTO_MAX_RAW_BYTES = 20 * 1024 * 1024; // 20 МБ
 
 export function formatPhotoSizeMb(bytes: number = LEAD_PHOTO_MAX_BYTES): string {
   return `${bytes / (1024 * 1024)} МБ`;
@@ -8,7 +16,7 @@ export function formatPhotoSizeMb(bytes: number = LEAD_PHOTO_MAX_BYTES): string 
 
 const ERROR_MESSAGES: Record<string, string> = {
   TOO_MANY_FILES: `Можна додати не більше ${LEAD_PHOTO_MAX_COUNT} фото`,
-  FILE_TOO_LARGE: `Файл завеликий. Максимум ${formatPhotoSizeMb()} на одне фото`,
+  FILE_TOO_LARGE: `Файл завеликий. Максимум ${formatPhotoSizeMb(LEAD_PHOTO_MAX_RAW_BYTES)} на одне фото`,
   FILE_INVALID_TYPE: "Дозволені лише зображення (JPG, PNG, WEBP тощо)",
   FILE_TOO_SMALL: "Файл занадто малий",
   FILE_INVALID: "Невірний файл",

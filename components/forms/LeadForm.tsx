@@ -25,6 +25,7 @@ import { AutoResizeTextarea } from "./AutoResizeTextarea";
 import { FieldError } from "./FieldError";
 import { LeadPhotoUpload } from "./LeadPhotoUpload";
 import { LEAD_PHOTO_MAX_COUNT } from "@/lib/lead-photos";
+import { compressImageFiles } from "@/lib/compress-image";
 import { readStoredUtm } from "@/lib/utm";
 
 const fieldProps = {
@@ -117,6 +118,14 @@ export function LeadForm({
     setStatus("loading");
 
     try {
+      // Стискаємо фото перед відправкою: тіло serverless-функції на Vercel
+      // обмежене ~4.5 МБ, а телефонні фото часто важать більше. Стиснення
+      // непомітне на око (масштаб до 1600px, якість ~80%), але надійно
+      // вкладається в ліміт, тому заявка з фото більше не падає з 413.
+      const compressedPhotos = await compressImageFiles(
+        photos.slice(0, LEAD_PHOTO_MAX_COUNT),
+      );
+
       const body = new FormData();
       body.append("name", form.name.trim());
       body.append("phone", phoneDigitsToSubmit(phone.phoneDigits));
@@ -124,7 +133,7 @@ export function LeadForm({
       body.append("message", form.message);
       body.append("website", form.website);
       if (calculatorTotal) body.append("calculatorTotal", String(calculatorTotal));
-      photos.slice(0, LEAD_PHOTO_MAX_COUNT).forEach((f) => body.append("photos", f));
+      compressedPhotos.forEach((f) => body.append("photos", f));
 
       const utm = readStoredUtm();
       if (Object.keys(utm).length > 0) {

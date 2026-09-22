@@ -5,6 +5,7 @@ import { Box, Text, FileUpload, useFileUploadContext } from "@chakra-ui/react";
 import {
   getPhotoUploadError,
   LEAD_PHOTO_MAX_BYTES,
+  LEAD_PHOTO_MAX_RAW_BYTES,
   LEAD_PHOTO_MAX_COUNT,
   formatPhotoSizeMb,
 } from "@/lib/lead-photos";
@@ -128,7 +129,7 @@ export function LeadPhotoUpload({ id, onFilesChange, compact }: Props) {
       <FileUpload.Root
         ids={id ? { hiddenInput: id } : undefined}
         maxFiles={LEAD_PHOTO_MAX_COUNT}
-        maxFileSize={LEAD_PHOTO_MAX_BYTES}
+        maxFileSize={LEAD_PHOTO_MAX_RAW_BYTES}
         accept="image/*"
         onFileChange={(details) => {
           setUploadError(null);
