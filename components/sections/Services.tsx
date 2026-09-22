@@ -91,7 +91,7 @@ export function Services({ showTrustStrip = true }: ServicesProps) {
         <Box position="relative" h={0} zIndex={2}>
           <Box
             position="absolute"
-            top={{ base: "-108px", md: "-124px" }}
+            top={{ base: "-32px", md: "-124px" }}
             left={0}
             right={0}
             zIndex={10}
