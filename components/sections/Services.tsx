@@ -91,7 +91,7 @@ export function Services({ showTrustStrip = true }: ServicesProps) {
         <Box position="relative" h={0} zIndex={2}>
           <Box
             position="absolute"
-            top={{ base: "-32px", md: "-124px" }}
+            top={{ base: "-48px", md: "-124px" }}
             left={0}
             right={0}
             zIndex={10}
@@ -101,7 +101,7 @@ export function Services({ showTrustStrip = true }: ServicesProps) {
         </Box>
       )}
 
-      <Box pt={showTrustStrip ? { base: 16, md: 20 } : 0}>
+      <Box pt={showTrustStrip ? { base: "96px", md: 20 } : 0}>
         <SectionHeader
           eyebrow="Послуги"
           title="Будь-яке сміття вивеземо швидко і без клопотів"
