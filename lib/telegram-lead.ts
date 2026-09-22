@@ -1,5 +1,4 @@
 import { SITE_NAME } from "@/lib/contacts";
-import { SITE_URL } from "@/lib/seo-meta";
 
 const telegramApi = (token: string) => `https://api.telegram.org/bot${token}/`;
 
@@ -33,7 +32,6 @@ export function isTelegramConfigured(): boolean {
 export function formatLeadMessage(payload: LeadTelegramPayload): string {
   const lines: string[] = [
     `🆕 <b>Нова заявка — ${escapeHtml(SITE_NAME)}</b>`,
-    `Сайт: ${escapeHtml(SITE_URL)}`,
     "",
     `Ім'я: ${escapeHtml(payload.name ?? "—")}`,
     `Телефон: ${escapeHtml(payload.phone ?? "—")}`,
