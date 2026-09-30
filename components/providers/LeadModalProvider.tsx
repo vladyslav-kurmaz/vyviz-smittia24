@@ -8,10 +8,23 @@ import {
   useMemo,
   useState,
 } from "react";
+import dynamic from "next/dynamic";
 import { AnimatePresence, motion } from "framer-motion";
 import { Portal } from "@chakra-ui/react";
-import { LeadForm } from "@/components/forms/LeadForm";
 import { usePastHero } from "@/hooks/usePastHero";
+
+/**
+ * LeadModalProvider обгортає весь сайт (через Providers у layout.tsx),
+ * тому будь-який статичний імпорт тут потрапляє в початковий JS-бандл
+ * для КОЖНОГО відвідувача — навіть якщо модалку так ніхто й не відкриє.
+ * LeadForm тягне за собою Chakra-компоненти, FileUpload, валідацію
+ * телефону тощо — переносимо в окремий чанк, який довантажується лише
+ * в момент відкриття модалки.
+ */
+const LeadForm = dynamic(
+  () => import("@/components/forms/LeadForm").then((m) => m.LeadForm),
+  { ssr: false },
+);
 
 export type LeadModalOptions = {
   service?: string;
