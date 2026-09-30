@@ -4,6 +4,7 @@ import "./globals.css";
 import { defaultMetadata } from "@/lib/metadata";
 import { Analytics } from "@/components/Analytics";
 import { Providers } from "@/components/providers/Providers";
+import { HERO_BG, HERO_BG_MOBILE } from "@/lib/hero";
 
 const inter = Inter({
   subsets: ["latin", "cyrillic"],
@@ -23,11 +24,23 @@ export default function RootLayout({
   return (
     <html lang="uk" dir="ltr" suppressHydrationWarning>
       <head>
+        {/* Два preload з media — відповідає <picture> у Hero.tsx: кожен
+            пристрій підвантажує заздалегідь лише те зображення, яке
+            реально покаже (раніше desktop-версія теж завжди
+            завантажувала мобільний постер). */}
         <link
           rel="preload"
           as="image"
-          href="/images/hero/hero-mobile-poster.webp"
+          href={HERO_BG_MOBILE}
           fetchPriority="high"
+          media="(max-width: 767px)"
+        />
+        <link
+          rel="preload"
+          as="image"
+          href={HERO_BG}
+          fetchPriority="high"
+          media="(min-width: 768px)"
         />
       </head>
       <body

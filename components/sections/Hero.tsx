@@ -6,7 +6,14 @@ export function Hero() {
   return (
     <section id="hero" className="hero-section">
       <div className="hero-media" aria-hidden>
-        <div className="hero-media__mobile">
+        {/* <picture> — браузер завантажує лише те джерело, що відповідає
+            viewport, а не обидва одразу (як було раніше з двома <img>,
+            прихованими через CSS display:none — приховане зображення все
+            одно вантажилось). На мобільному це прибирає зайве
+            завантаження десктопної картинки (138 КБ) з тим самим
+            найвищим пріоритетом, що й потрібна mobile-версія. */}
+        <picture className="hero-media__picture">
+          <source media="(min-width: 768px)" srcSet={HERO_BG} />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={HERO_BG_MOBILE}
@@ -17,19 +24,7 @@ export function Hero() {
             fetchPriority="high"
             decoding="sync"
           />
-        </div>
-        <div className="hero-media__desktop">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={HERO_BG}
-            alt=""
-            className="hero-media__img"
-            width={1280}
-            height={960}
-            fetchPriority="high"
-            decoding="sync"
-          />
-        </div>
+        </picture>
         <HeroVideoLayer />
         <div className="hero-media__scrim" />
         <div className="hero-media__gradient" />
