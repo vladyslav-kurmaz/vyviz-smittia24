@@ -16,11 +16,9 @@ import {
 
 function GalleryImage({
   id,
-  priority,
   onReady,
 }: {
   id: number;
-  priority?: boolean;
   onReady?: () => void;
 }) {
   const [failed, setFailed] = useState(false);
@@ -36,8 +34,7 @@ function GalleryImage({
         src={src}
         alt={`Наші роботи — фото ${id}`}
         fill
-        priority={priority}
-        loading={priority ? undefined : "lazy"}
+        loading="lazy"
         quality={55}
         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         style={{ objectFit: "cover" }}
@@ -136,13 +133,9 @@ export function Gallery() {
               gridTemplateColumns={{ base: "1fr", sm: "1fr 1fr", lg: "repeat(3, 1fr)" }}
               gap={4}
             >
-              {GALLERY_IMAGE_IDS.map((id, index) => (
+              {GALLERY_IMAGE_IDS.map((id) => (
                 <Box key={id} overflow="hidden" rounded="card">
-                  <GalleryImage
-                    id={id}
-                    priority={index < GALLERY_INITIAL_COUNT}
-                    onReady={scheduleUpdateHeights}
-                  />
+                  <GalleryImage id={id} onReady={scheduleUpdateHeights} />
                 </Box>
               ))}
             </Box>

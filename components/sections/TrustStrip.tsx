@@ -9,7 +9,10 @@ import { VOLUME_PRICING } from "@/lib/fleet";
 const STATS = [
   { value: VEHICLE_ARRIVAL_SHORT, label: "подача авто, залежить від локації" },
   { value: "24/7", label: "приймаємо заявки" },
-  { value: `від ${VOLUME_PRICING.baseDelivery} ₴`, label: "подача автомобіля" },
+  // "грн" замість "₴": символ ₴ (U+20B4) входить лише в subset latin-ext
+  // шрифту Inter, і через нього браузер одразу докачував окремий woff2
+  // на 85 КБ (VeryHigh, у критичному шляху). Решта сайту вже пише "грн".
+  { value: `від ${VOLUME_PRICING.baseDelivery} грн`, label: "подача автомобіля" },
   { value: "100%", label: "легальна утилізація" },
 ];
 

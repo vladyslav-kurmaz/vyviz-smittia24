@@ -32,18 +32,21 @@ export function Hero() {
 
       <div className="hero-content">
         <div className="hero-content__inner">
-          <span className="hero-eyebrow hero-enter">Київ та область</span>
+          {/* Жодних fade-in/opacity:0 на тексті першого екрана: абзац .hero-lead
+              є LCP-елементом, і поки він стартував із opacity:0, LCP
+              фіксувався лише після появи анімації (render delay ≈ 85% LCP). */}
+          <span className="hero-eyebrow">Київ та область</span>
 
           <h1 className="hero-title">
             Вивіз будь-якого сміття по всій Київській області
           </h1>
 
-          <p className="hero-lead hero-enter hero-enter-delay-1">
+          <p className="hero-lead">
             Вивозимо будівельне, побутове та великогабаритне сміття. Приїжджаємо
             вчасно, допомагаємо із завантаженням та залишаємо після себе порядок.
           </p>
 
-          <div className="hero-enter hero-enter-delay-2">
+          <div>
             <HeroActions />
           </div>
         </div>

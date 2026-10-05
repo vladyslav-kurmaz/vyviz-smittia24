@@ -699,38 +699,6 @@ label {
   margin-top: 2rem;
 }
 
-@keyframes hero-enter {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-/* Коротко й без staggered-затримки: це контент над "фолдом", який
-   користувач з реклами повинен побачити відразу, а не дочекатись,
-   поки він доанімується (раніше — до 0.76с для кнопок: 0.6с тривалість
-   + 0.16с затримка). */
-.hero-enter {
-  animation: hero-enter 0.25s ease-out both;
-}
-
-.hero-enter-delay-1,
-.hero-enter-delay-2 {
-  animation-delay: 0s;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-enter,
-  .hero-enter-delay-1,
-  .hero-enter-delay-2 {
-    animation: none;
-  }
-}
-
 .floating-messengers {
   position: fixed;
   bottom: 6rem;
