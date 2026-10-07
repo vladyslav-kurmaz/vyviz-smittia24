@@ -17,8 +17,8 @@ export type ConversionKind = "lead" | "phone" | "messenger";
 export const ADS_CONVERSION_LABELS: Record<ConversionKind, string> = {
   /** Надсилання форми заявки (мітка публічна, видно в коді сторінки) */
   lead: process.env.NEXT_PUBLIC_ADS_LABEL_LEAD?.trim() ?? "HWMRCNLwx5QdEPGf_d5E",
-  /** Клік по номеру телефону (tel:) */
-  phone: process.env.NEXT_PUBLIC_ADS_LABEL_PHONE?.trim() ?? "",
+  /** Клік по номеру телефону (tel:); у кабінеті дія називається "Контакт" */
+  phone: process.env.NEXT_PUBLIC_ADS_LABEL_PHONE?.trim() ?? "DczSCOebzJQdEPGf_d5E",
   /** Клік по Telegram / Viber / WhatsApp */
   messenger: process.env.NEXT_PUBLIC_ADS_LABEL_MESSENGER?.trim() ?? "",
 };
