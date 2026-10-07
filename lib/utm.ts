@@ -1,11 +1,22 @@
-/** UTM-параметри для атрибуції заявок */
+/**
+ * Параметри атрибуції заявок: UTM + ідентифікатори рекламного кліку Google
+ * (gclid — автотегування Google Ads; gbraid/wbraid — iOS-варіанти). Вони
+ * потрапляють у заявку в Telegram і дозволяють потім зіставити заявку з
+ * кліком (наприклад, для імпорту офлайн-конверсій).
+ */
 export const UTM_KEYS = [
   "utm_source",
   "utm_medium",
   "utm_campaign",
   "utm_term",
   "utm_content",
+  "gclid",
+  "gbraid",
+  "wbraid",
 ] as const;
+
+/** Запобіжник від надто довгих значень у query-рядку */
+const MAX_VALUE_LENGTH = 200;
 
 export type UtmKey = (typeof UTM_KEYS)[number];
 export type UtmParams = Partial<Record<UtmKey, string>>;
@@ -17,7 +28,7 @@ export function parseUtmFromSearch(search: string): UtmParams {
   const utm: UtmParams = {};
 
   for (const key of UTM_KEYS) {
-    const value = params.get(key)?.trim();
+    const value = params.get(key)?.trim().slice(0, MAX_VALUE_LENGTH);
     if (value) utm[key] = value;
   }
 

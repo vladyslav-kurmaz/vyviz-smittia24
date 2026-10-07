@@ -26,6 +26,7 @@ import { FieldError } from "./FieldError";
 import { LeadPhotoUpload } from "./LeadPhotoUpload";
 import { LEAD_PHOTO_MAX_COUNT } from "@/lib/lead-photos";
 import { compressImageFiles } from "@/lib/compress-image";
+import { trackAdsConversion } from "@/lib/ads";
 import { readStoredUtm } from "@/lib/utm";
 
 const fieldProps = {
@@ -143,6 +144,9 @@ export function LeadForm({
 
       const res = await fetch("/api/lead", { method: "POST", body });
       if (!res.ok) throw new Error("fail");
+      // Конверсія Google Ads рахується лише після успішної відповіді сервера.
+      // Навігація клієнтська (без перезавантаження), тож подія встигає піти.
+      trackAdsConversion("lead");
       onSuccess?.();
       router.push(THANK_YOU_PATH);
     } catch {

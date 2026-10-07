@@ -1,25 +1,36 @@
 import Script from "next/script";
+import { GOOGLE_ADS_ID } from "@/lib/ads";
 
 export function Analytics() {
-  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+  const gaId = process.env.NEXT_PUBLIC_GA_ID?.trim();
   const pixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
+
+  // Один Google-тег (gtag.js) на всі призначення: Google Ads (AW-…) і,
+  // якщо задано, GA4 (G-…). Тег лише у production, щоб локальна розробка та
+  // тестові запуски не засмічували дані кабінету.
+  const googleIds = [GOOGLE_ADS_ID, gaId].filter(Boolean) as string[];
+  const enableGoogleTag =
+    googleIds.length > 0 && process.env.NODE_ENV === "production";
 
   return (
     <>
-      {gaId && (
+      {enableGoogleTag && (
         <>
-          <Script
-            src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-            strategy="lazyOnload"
-          />
-          <Script id="ga4" strategy="lazyOnload">
+          {/* Дрібний inline-ініціалізатор: ставить dataLayer/gtag, тож події
+              (кліки, форма) можна надсилати ще до завантаження бібліотеки. */}
+          <Script id="google-tag-init" strategy="afterInteractive">
             {`
               window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
+              window.gtag = window.gtag || function(){dataLayer.push(arguments);};
               gtag('js', new Date());
-              gtag('config', '${gaId}');
+              ${googleIds.map((id) => `gtag('config', '${id}');`).join("\n              ")}
             `}
           </Script>
+          {/* Важка бібліотека — після load + idle, поза критичним шляхом LCP. */}
+          <Script
+            src={`https://www.googletagmanager.com/gtag/js?id=${googleIds[0]}`}
+            strategy="lazyOnload"
+          />
         </>
       )}
       {pixelId && (
