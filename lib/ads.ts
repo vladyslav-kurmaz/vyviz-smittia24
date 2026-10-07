@@ -15,8 +15,8 @@ export const GOOGLE_ADS_ID =
 export type ConversionKind = "lead" | "phone" | "messenger";
 
 export const ADS_CONVERSION_LABELS: Record<ConversionKind, string> = {
-  /** Надсилання форми заявки */
-  lead: process.env.NEXT_PUBLIC_ADS_LABEL_LEAD?.trim() ?? "",
+  /** Надсилання форми заявки (мітка публічна, видно в коді сторінки) */
+  lead: process.env.NEXT_PUBLIC_ADS_LABEL_LEAD?.trim() ?? "HWMRCNLwx5QdEPGf_d5E",
   /** Клік по номеру телефону (tel:) */
   phone: process.env.NEXT_PUBLIC_ADS_LABEL_PHONE?.trim() ?? "",
   /** Клік по Telegram / Viber / WhatsApp */
