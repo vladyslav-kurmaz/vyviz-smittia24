@@ -20,7 +20,8 @@ export const ADS_CONVERSION_LABELS: Record<ConversionKind, string> = {
   /** Клік по номеру телефону (tel:); у кабінеті дія називається "Контакт" */
   phone: process.env.NEXT_PUBLIC_ADS_LABEL_PHONE?.trim() ?? "DczSCOebzJQdEPGf_d5E",
   /** Клік по Telegram / Viber / WhatsApp */
-  messenger: process.env.NEXT_PUBLIC_ADS_LABEL_MESSENGER?.trim() ?? "",
+  messenger:
+    process.env.NEXT_PUBLIC_ADS_LABEL_MESSENGER?.trim() ?? "uNljCImbzZQdEPGf_d5E",
 };
 
 type GtagWindow = Window & {
